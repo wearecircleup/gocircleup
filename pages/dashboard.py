@@ -168,7 +168,7 @@ def cached_upload_image(google_blobs, file):
         return ""
 
 # @st.cache_data(ttl=900, show_spinner=False)
-def get_intake_data() -> pd.DataFrame:
+def get_intake_data(cloud_id_course) -> pd.DataFrame:
     """
     Fetch and filter intake data for enrolled users.
     
@@ -179,7 +179,7 @@ def get_intake_data() -> pd.DataFrame:
         'first_name', 'last_name', 'dob', 'gender', 'nationality', 'is_ethnic','email',
         'city_residence', 'guardian_fullname', 'guardian_relationship', 'emergency_phone', 
         'education_level', 'user_role', 'strengths', 'weaknesses', 'disability', 
-        'ethnic_affiliation', 'skills', 'how_to_learn','cloud_id','cloud_id_course'
+        'ethnic_affiliation', 'skills', 'how_to_learn','cloud_id'
     ]
 
     try:
@@ -195,6 +195,8 @@ def get_intake_data() -> pd.DataFrame:
         if dataset.empty:
             return pd.DataFrame(columns=required_columns)
         
+        dataset = dataset[dataset['cloud_id_course'] == cloud_id_course]
+
         intake_users = set(dataset['cloud_id_user'].values)
         user_data_list: List[Dict[str, Any]] = []
         
@@ -629,11 +631,10 @@ def main() -> None:
                 display_course_requirements(course_details)
             
             if st.session_state.get('show_course_dashboard', False):
-                users_enrolled = get_intake_data()
+                users_enrolled = get_intake_data(course_details['cloud_id'])
                 if users_enrolled.empty:
                     st.info(f"No te preocupes, aún no tenemos inscritos en :blue[**{course_details['course_name']}**]. Todavía hay tiempo para invitar a más personas. Si es necesario, podríamos considerar reprogramar para asegurar un buen número de participantes.",icon=":material/notifications:")
                 else:
-                    users_enrolled = users_enrolled[users_enrolled['cloud_id_course'] == course_details['cloud_id']]
                     intake_dashboard(course_details,users_enrolled)
             
             if st.session_state.get('show_course_token', False):

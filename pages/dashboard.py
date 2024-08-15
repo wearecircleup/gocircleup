@@ -130,7 +130,7 @@ def get_course_data():
         course_requests = Conn.query_collection('course_proposal', [('status', '==','Approved')])
         courses_data = [doc.data for doc in course_requests]
         dataset = pd.DataFrame(courses_data)
-        dataset = dataset[dataset['cloud_id_volunteer'] == auth]
+        # dataset = dataset[dataset['cloud_id_volunteer'] == auth]
         return dataset
     except Exception as e:
         st.error(f"Error fetching course data: {str(e)}")
@@ -324,6 +324,13 @@ def calculate_metrics(course: Dict[str, int], enrolled: List[int]) -> Dict[str, 
         'target': int(target),
         'remaining': max(0, int(target) - total)
     }
+
+
+start_date = parse_date('15-08-2024')
+days_until_start = (start_date - datetime.now()).days
+st.write(days_until_start)
+st.write(get_course_data())
+st.write(st.session_state.user_auth.cloud_id)
 
 
 def display_dashboard(course: Dict[str, int], enrolled: List[int], utils: CategoryUtils):

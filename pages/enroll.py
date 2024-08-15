@@ -300,7 +300,8 @@ def filter_age_appropriate_courses(data_courses: pd.DataFrame, user_age_category
     return data_courses[data_courses['allowed_age'].apply(lambda x: is_age_category_appropriate(user_age_category, x) if pd.notna(x) else False)]
 
 def update_intakes():
-    get_intake_data.clear()
+    pass
+    # get_intake_data.clear()
 
 def entry_unregister():
     try:

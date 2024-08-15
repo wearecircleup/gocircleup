@@ -232,7 +232,7 @@ def intake_attendance() -> Optional[Dict]:
     today_format = utils.format_date(today)
     course_date = utils.format_date(course_details['start_date'])
 
-    if days_until_start > 0:
+    if days_until_start > -1:
             st.warning(f'Recuerda que solo puedes marcar asistencia el :orange[**{course_date}**]. Hoy, :orange[**{today_format}**], no es un día válido. Asegúrate de registrarte en la fecha correcta.',icon=":material/event:")
             return None
 

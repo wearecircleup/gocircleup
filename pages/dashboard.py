@@ -279,11 +279,17 @@ def volunteer_dashboard() -> None:
     Aquí tienes datos confidenciales de tus participantes para mejorar tu experiencia educativa. Recuerda que esta información está protegida por nuestra [Política de Protección de Datos](https://drive.google.com/file/d/18Vu3lsHP0_UszWxSr8uez4W7P3_FWKfe/view). :blue[**Úsala exclusivamente para el desarrollo del curso y no la compartas con terceros.**]
     """, icon=":material/admin_panel_settings:")
 
+    if st.session_state.user_auth is None:
+        st.warning(f"No tienes cursos propuestos. :orange[**¿Crees que es un error?**] Escríbenos a wearecircleup@gmail.com", icon=":material/notifications:")
+        return 
+
     proposals = get_course_data()
 
     if proposals.empty:
         st.warning(f"No tienes cursos propuestos. :orange[**¿Crees que es un error?**] Escríbenos a wearecircleup@gmail.com", icon=":material/notifications:")
         return
+    
+    proposals = proposals[proposals['cloud_id_volunteer'] == st.session_state.user_auth.cloud_d]
 
     course_names = set(proposals['course_name'].values)
     selected_course: Optional[str] = st.selectbox("Selecciona un curso para revisar", course_names, index=None)
@@ -326,11 +332,11 @@ def calculate_metrics(course: Dict[str, int], enrolled: List[int]) -> Dict[str, 
     }
 
 
-start_date = parse_date('15-08-2024')
-days_until_start = (start_date - datetime.now()).days
-st.write(days_until_start)
-st.write(get_course_data())
-st.write(st.session_state.user_auth.cloud_id)
+# start_date = parse_date('15-08-2024')
+# days_until_start = (start_date - datetime.now()).days
+# st.write(days_until_start)
+# st.write(get_course_data())
+# st.write(st.session_state.user_auth.cloud_id)
 
 
 def display_dashboard(course: Dict[str, int], enrolled: List[int], utils: CategoryUtils):
@@ -338,11 +344,11 @@ def display_dashboard(course: Dict[str, int], enrolled: List[int], utils: Catego
     
     metrics = calculate_metrics(course, enrolled)
     start_date = parse_date(course['start_date'])
-    days_until_start = (start_date - datetime.now()).days
+    days_until_start = int((start_date - datetime.now()).days)
     cancel_date = start_date - timedelta(days=2)
     min_required = math.ceil(metrics['min']*0.85)
 
-    if days_until_start > 0:
+    if days_until_start > -1:
         st.info(f"""
             El curso comienza el :blue[**{utils.format_date(start_date.strftime('%d-%m-%Y')).lower()}**].
             Tenemos hasta el :blue[**{utils.format_date(cancel_date.strftime('%d-%m-%Y')).lower()}**], es decir, :blue[**{days_until_start - 2} días**]
@@ -350,7 +356,7 @@ def display_dashboard(course: Dict[str, int], enrolled: List[int], utils: Catego
             Ya vamos :blue[**{metrics['total']} inscritos**]. Solo faltarían al menos :blue[**{max(0, min_required - metrics['total'])} personas más**]. ¡Ánimo, estamos cerca!
             Recuerda, si no alcanzamos este número, el curso podría ser cancelado.
         """,icon=":material/battery_charging_50: ")
-    elif days_until_start == 0:
+    elif days_until_start == -1:
         st.success("¡Fantástico! El curso comienza :green[**hoy**]. ¡Esperamos que todos estén listos para esta gran aventura de aprendizaje!")
     else:
         st.info(f"El curso ya está en marcha desde hace :blue[{abs(days_until_start)} días]. ¡Esperamos que estén disfrutando de esta experiencia!")
@@ -590,9 +596,9 @@ def main() -> None:
     course_details = volunteer_dashboard()
     if course_details:
         start_date = parse_date(course_details['start_date'])
-        days_until_start = (start_date - datetime.now()).days
+        days_until_start = int((start_date - datetime.now()).days)
     
-    if course_details and days_until_start >=0:
+    if course_details and days_until_start >=-1:
 
         st.divider()
         col1, col2, col3 = st.columns(3)

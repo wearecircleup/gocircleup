@@ -65,6 +65,7 @@ def get_course_data():
         course_requests = Conn.query_collection('course_proposal', [('status', '==', 'Approved')])
         courses_data = [doc.data for doc in course_requests]
         dataset = pd.DataFrame(courses_data)
+        dataset = dataset[dataset['cloud_id_volunteer'] != st.session_state.user_auth.cloud_id]
         dataset.rename(columns={'cloud_id':'cloud_id_course'}, inplace=True)
         dataset['course_date'] = pd.to_datetime(dataset['start_date'], format='%d-%m-%Y')
         dataset['days'] = (dataset['course_date'] - pd.Timestamp.now()).dt.days

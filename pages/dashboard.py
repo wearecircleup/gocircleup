@@ -124,36 +124,36 @@ def tokens_generator(course_details):
 
 # @st.cache_data(ttl=900, show_spinner=False)
 def get_course_data():
-    auth = st.session_state.user_auth.cloud_id
-    try:
-        Conn = connector()
-        course_requests = Conn.query_collection('course_proposal', [('status', '==','Approved')])
-        courses_data = [doc.data for doc in course_requests]
-        dataset = pd.DataFrame(courses_data)
-        # dataset = dataset[dataset['cloud_id_volunteer'] == auth]
-        return dataset
-    except Exception as e:
-        st.error(f"Error fetching course data: {str(e)}")
-        return pd.DataFrame(columns=[
-            'created_at', 'cloud_id_volunteer', 'first_name', 'last_name', 'gender', 'email',
-            'volunteer_profile', 'cloud_id', 'course_categories', 'course_name', 'course_objective',
-            'modality_proposal', 'min_audience', 'max_audience', 'allowed_age', 'city_proposal',
-            'place_proposal', 'start_date', 'devices_proposal', 'tech_resources', 'prior_knowledge',
-            'status', 'signed_concent', 'updated_at', 'notification'
-        ])
+
+    # try:
+    Conn = connector()
+    course_requests = Conn.query_collection('course_proposal', [('status', '==','Approved')])
+    courses_data = [doc.data for doc in course_requests]
+    dataset = pd.DataFrame(courses_data)
+    # dataset = dataset[dataset['cloud_id_volunteer'] == auth]
+    return dataset
+    # except Exception as e:
+    #     st.error(f"Error fetching course data: {str(e)}")
+    #     return pd.DataFrame(columns=[
+    #         'created_at', 'cloud_id_volunteer', 'first_name', 'last_name', 'gender', 'email',
+    #         'volunteer_profile', 'cloud_id', 'course_categories', 'course_name', 'course_objective',
+    #         'modality_proposal', 'min_audience', 'max_audience', 'allowed_age', 'city_proposal',
+    #         'place_proposal', 'start_date', 'devices_proposal', 'tech_resources', 'prior_knowledge',
+    #         'status', 'signed_concent', 'updated_at', 'notification'
+    #     ])
 
 @st.cache_data(ttl=900, show_spinner=False)
 def get_attendance(cloud_id_course):
-    try:
-        Conn = connector()
-        course_requests = Conn.query_collection('tokens_storage', [('cloud_id_course', '==', cloud_id_course)])
-        courses_data = [doc.data for doc in course_requests]
-        dataset = pd.DataFrame(courses_data)
-        emails_attendance = list({email for item in dataset['status'].values for email in item})
-        return emails_attendance
-    except Exception as e:
-        st.error(f"Error fetching course data: {str(e)}")
-        return []
+    # try:
+    Conn = connector()
+    course_requests = Conn.query_collection('tokens_storage', [('cloud_id_course', '==', cloud_id_course)])
+    courses_data = [doc.data for doc in course_requests]
+    dataset = pd.DataFrame(courses_data)
+    emails_attendance = list({email for item in dataset['status'].values for email in item})
+    return emails_attendance
+    # except Exception as e:
+    #     st.error(f"Error fetching course data: {str(e)}")
+    #     return []
 
 @st.cache_data(ttl=300,show_spinner=False)
 def cached_upload_image(google_blobs, file):

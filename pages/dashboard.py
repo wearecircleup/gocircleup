@@ -635,8 +635,6 @@ def main() -> None:
                 if users_enrolled.empty:
                     st.info(f"No te preocupes, aún no tenemos inscritos en :blue[**{course_details['course_name']}**]. Todavía hay tiempo para invitar a más personas. Si es necesario, podríamos considerar reprogramar para asegurar un buen número de participantes.",icon=":material/notifications:")
                 else:
-                    st.write(users_enrolled)
-                    st.write(course_details)
                     intake_dashboard(course_details,users_enrolled)
             
             if st.session_state.get('show_course_token', False):

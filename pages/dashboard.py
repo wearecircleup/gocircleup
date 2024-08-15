@@ -179,48 +179,48 @@ def get_intake_data() -> pd.DataFrame:
         'first_name', 'last_name', 'dob', 'gender', 'nationality', 'is_ethnic','email',
         'city_residence', 'guardian_fullname', 'guardian_relationship', 'emergency_phone', 
         'education_level', 'user_role', 'strengths', 'weaknesses', 'disability', 
-        'ethnic_affiliation', 'skills', 'how_to_learn','cloud_id'
+        'ethnic_affiliation', 'skills', 'how_to_learn','cloud_id','cloud_id_course'
     ]
 
-    # try:
-    Conn = connector()
-    course_requests = Conn.query_collection('intake_collection', [
-        ('cloud_id_volunteer', '==', st.session_state.user_auth.cloud_id),
-        ('status', '==', 'Enrolled')
-    ])
-    time.sleep(2)
-    courses_data = [doc.data for doc in course_requests]
-    dataset = pd.DataFrame(courses_data)
-    
-    if dataset.empty:
-        return pd.DataFrame(columns=required_columns)
-    
-    intake_users = set(dataset['cloud_id_user'].values)
-    user_data_list: List[Dict[str, Any]] = []
-    
-    for user_id in intake_users:
-        user_data = Conn.get_document('users_collection', user_id)
-        user_data_list.append(user_data.data)
+    try:
+        Conn = connector()
+        course_requests = Conn.query_collection('intake_collection', [
+            ('cloud_id_volunteer', '==', st.session_state.user_auth.cloud_id),
+            ('status', '==', 'Enrolled')
+        ])
         time.sleep(2)
-    
-    users_df = pd.DataFrame(user_data_list)
-    users_df = users_df[required_columns]
-    
-    for col in required_columns:
-        if col not in users_df.columns:
-            users_df[col] = None
-    
-    list_columns = ['strengths', 'weaknesses', 'disability', 'ethnic_affiliation', 'skills', 'how_to_learn']
-    for col in list_columns:
-        users_df[col] = users_df[col].apply(lambda x: ', '.join(x) if isinstance(x, list) else x)
-    
-    users_df.rename(columns=clear_names(),inplace=True)
+        courses_data = [doc.data for doc in course_requests]
+        dataset = pd.DataFrame(courses_data)
+        
+        if dataset.empty:
+            return pd.DataFrame(columns=required_columns)
+        
+        intake_users = set(dataset['cloud_id_user'].values)
+        user_data_list: List[Dict[str, Any]] = []
+        
+        for user_id in intake_users:
+            user_data = Conn.get_document('users_collection', user_id)
+            user_data_list.append(user_data.data)
+            time.sleep(2)
+        
+        users_df = pd.DataFrame(user_data_list)
+        users_df = users_df[required_columns]
+        
+        for col in required_columns:
+            if col not in users_df.columns:
+                users_df[col] = None
+        
+        list_columns = ['strengths', 'weaknesses', 'disability', 'ethnic_affiliation', 'skills', 'how_to_learn']
+        for col in list_columns:
+            users_df[col] = users_df[col].apply(lambda x: ', '.join(x) if isinstance(x, list) else x)
+        
+        users_df.rename(columns=clear_names(),inplace=True)
 
-    return users_df
+        return users_df
 
-    # except Exception as e:
-    #     st.error(f"Error fetching intake data: {str(e)}")
-    #     return pd.DataFrame(columns=required_columns)
+    except Exception as e:
+        st.error(f"Error fetching intake data: {str(e)}")
+        return pd.DataFrame(columns=required_columns)
 
 def display_course_summary(course_details: Dict[str, Any]) -> None:
     """Display a summary of the selected course."""
@@ -480,6 +480,8 @@ def intake_dashboard(course_details,users_enrolled):
     summary = users_enrolled.copy()
 
     if len(attendace_emails) == 0:
+        filter_fields = ['Nombre','Contacto Emergencia','Parentesco','Tel. Emergencia','Div. Funcional','Grupo Étnico']
+        summary = summary[filter_fields]
         st.dataframe(summary.dropna(), hide_index=True, use_container_width=True)
 
     else:
@@ -631,6 +633,7 @@ def main() -> None:
                 if users_enrolled.empty:
                     st.info(f"No te preocupes, aún no tenemos inscritos en :blue[**{course_details['course_name']}**]. Todavía hay tiempo para invitar a más personas. Si es necesario, podríamos considerar reprogramar para asegurar un buen número de participantes.",icon=":material/notifications:")
                 else:
+                    users_enrolled = users_enrolled[users_enrolled['cloud_id_course'] == course_details['cloud_id']]
                     intake_dashboard(course_details,users_enrolled)
             
             if st.session_state.get('show_course_token', False):

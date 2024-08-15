@@ -289,7 +289,7 @@ def volunteer_dashboard() -> None:
         st.warning(f"No tienes cursos propuestos. :orange[**¿Crees que es un error?**] Escríbenos a wearecircleup@gmail.com", icon=":material/notifications:")
         return
     
-    proposals = proposals[proposals['cloud_id_volunteer'] == st.session_state.user_auth.cloud_d]
+    proposals = proposals[proposals['cloud_id_volunteer'] == st.session_state.user_auth.cloud_id]
 
     course_names = set(proposals['course_name'].values)
     selected_course: Optional[str] = st.selectbox("Selecciona un curso para revisar", course_names, index=None)

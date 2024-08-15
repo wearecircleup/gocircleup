@@ -51,7 +51,7 @@ def extract_course_name(text):
         return match.group(1)
     return None
 
-@st.cache_data(ttl=900, show_spinner=False)
+# @st.cache_data(ttl=900, show_spinner=False)
 def get_intake_data():
     try:
         cloud_id = str(st.session_state.user_auth.cloud_id)
@@ -110,7 +110,7 @@ def update_sheets(cloud_id):
     except Exception as e:
         return False
 
-# @st.cache_data(ttl=900, show_spinner=False)
+@st.cache_data(ttl=900, show_spinner=False)
 def authenticate_token(firebase_token):
     default = {'cloud_id':'','cloud_id_course':'','cloud_id_volunteer':'','created_at':'','token':'','status': ''}
     try:

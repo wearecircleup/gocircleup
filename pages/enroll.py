@@ -58,7 +58,7 @@ def cached_upload_file(google_blobs, file):
         st.error(f"Error al subir el archivo: {str(e)}")
         return ""
 
-@st.cache_data(ttl=900, show_spinner=False)
+# @st.cache_data(ttl=900, show_spinner=False)
 def get_course_data():
     try:
         Conn = connector()
@@ -90,7 +90,7 @@ def get_course_data():
             'status', 'signed_concent', 'updated_at', 'notification'
         ])
 
-@st.cache_data(ttl=900, show_spinner=False)
+# @st.cache_data(ttl=900, show_spinner=False)
 def get_intake_data():
     try:
         Conn = connector()

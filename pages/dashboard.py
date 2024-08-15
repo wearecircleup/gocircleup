@@ -122,7 +122,7 @@ def tokens_generator(course_details):
     else:
         return None
 
-@st.cache_data(ttl=900, show_spinner=False)
+# @st.cache_data(ttl=900, show_spinner=False)
 def get_course_data():
     auth = st.session_state.user_auth.cloud_id
     try:
@@ -164,7 +164,7 @@ def cached_upload_image(google_blobs, file):
         st.error(f"Error al subir el archivo: {str(e)}")
         return ""
 
-@st.cache_data(ttl=900, show_spinner=False)
+# @st.cache_data(ttl=900, show_spinner=False)
 def get_intake_data() -> pd.DataFrame:
     """
     Fetch and filter intake data for enrolled users.

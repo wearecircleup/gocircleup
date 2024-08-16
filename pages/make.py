@@ -216,10 +216,6 @@ def main():
         display_brainstorming_results()
         create_presentation_form()
 
-    st.divider()
-    if st.button(':material/hiking: Volver al Inicio', type="secondary", help='Volver al menú principal', use_container_width=True):
-        st.switch_page('app.py')
-
 def create_volunteer_profile_form():
     with st.form("volunteer_profile"):
         volunteers = get_volunteer_id()

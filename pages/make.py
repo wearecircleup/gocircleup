@@ -128,9 +128,9 @@ def format_brainstorm_output(brainstorming: str) -> Tuple[str, str]:
             title: str = sections[i].strip()
             content: str = sections[i+1].strip()
             formatted_section: str = f"{title}\n\n{content}\n\n"
-            if i == 1:  # Primera sección va a output1
+            if i == 1: 
                 output1 = formatted_section
-            elif i == 3:  # Segunda sección va a output2
+            elif i == 3:
                 output2 = formatted_section
     
     return output1, output2
@@ -198,7 +198,6 @@ def update_volunteer_data():
 def update_brainstorm():
     get_anthropic_data.clear()
 
-# Main application
 def main():
     st.title("Creación de Propuestas Educativas")
     st.write("Uno de los puntos críticos en el desarrollo de propuestas es el tiempo y el acompañamiento. En Circle Up Community, sabemos que no todos somos expertos en pedagogía o en preparar una clase. Queremos que solo comprometas el 1% de tu tiempo al mes interactuando con la comunidad, no detrás de un computador pensando en cómo arreglar diapositivas. Vamos a crear juntos el diseño de la clase en el menor tiempo posible.")
@@ -327,8 +326,8 @@ def display_brainstorming_results():
     st.write("Las respuestas que se muestran a continuación son creadas para ti. Ahora vamos a leer cada una detalladamente, y es importante que estés muy atento para que podamos identificar lo que consideras que vale la pena enseñar a tu comunidad. Este contenido es creado con un modelo llamado Claude Sonnet 3.5 de Anthropic, y creemos que es bastante profesional, así que seguro será de utilidad.")
     
     idea1, idea2 = format_brainstorm_output(st.session_state.brainstorm_output)
-    st.info(idea1, icon=":material/lightbulb:")
-    st.success(idea2, icon=":material/rocket:")
+    st.info(idea1.replace('#','').strip(), icon=":material/lightbulb:")
+    st.success(idea2.replace('#','').strip(), icon=":material/rocket:")
 
 def create_presentation_form():
     st.title(":material/bolt: Ideas a Diapositivas Sonnet 3.5")

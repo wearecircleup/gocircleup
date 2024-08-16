@@ -374,12 +374,12 @@ def generate_presentation_slides(topic):
 
 
 if __name__ == "__main__":
-    try:
-        main()
-        menu()
-        st.divider()
-        st.image('./gallery/WebSvg/main_footer.svg', use_column_width=True)
-        if st.button(':material/hiking: Volver al Inicio', type="secondary", help='Volver al menú principal', use_container_width=True):
-            st.switch_page('app.py')
-    except:
+    # try:
+    main()
+    menu()
+    st.divider()
+    st.image('./gallery/WebSvg/main_footer.svg', use_column_width=True)
+    if st.button(':material/hiking: Volver al Inicio', type="secondary", help='Volver al menú principal', use_container_width=True):
         st.switch_page('app.py')
+    # except:
+    #     st.switch_page('app.py')

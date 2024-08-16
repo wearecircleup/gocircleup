@@ -62,12 +62,17 @@ def connector():
     Conn = Firestore(db)
     return Conn
 
+def format_name(name):
+    words = name.split()
+    formatted_words = [word.capitalize() for word in words]
+    return " ".join(formatted_words)
+
 def form_reponses():
     utils = CategoryUtils()
 
     form_users_class = {
-        'first_name':st.session_state._first_name, 
-        'last_name':st.session_state._last_name,
+        'first_name':format_name(st.session_state._first_name), 
+        'last_name':format_name(st.session_state._last_name),
         'email':st.session_state._email.lower().strip(),
         'password':st.session_state._password,
         'address':st.session_state._address,

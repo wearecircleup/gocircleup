@@ -433,7 +433,8 @@ def main():
 
         col1, col2, col3  = st.columns(3)
         with col1:
-            if st.button(':material/touch_app: Únete/Regístrate', type="secondary", help='Registro', use_container_width=True):
+            
+            if st.button(':material/touch_app: Crear Cuenta', type="primary", help='Registro', use_container_width=True):
                 st.switch_page('pages/signup.py')
         with col2:
             if st.button(':material/arrow_drop_down_circle: ¿Qué es Community?', type="secondary", use_container_width=True):

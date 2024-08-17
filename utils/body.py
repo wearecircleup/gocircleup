@@ -33,33 +33,33 @@ html_home = """
 """
 
 #Delete Warning
-@st.dialog("Eliminar Curso")
+@st.experimental_dialog("Eliminar Curso")
 def warning_deletion(course):
     st.subheader(f'@Eliminar **{course}**')
     st.error(disclaimer_delete,icon="🔥")
 
-@st.dialog("Curso Eliminado")
+@st.experimental_dialog("Curso Eliminado")
 def deletion_confirm():
     st.info("¡Eliminado! Si necesitas ayuda, no dudes en contactar a sporte", icon="ℹ️")
     st.markdown("**¡Sigue adelante con Circle Up ⚫!**")
     st.snow()
 
 
-@st.dialog("Cancelar Pre-Inscripcion")
+@st.experimental_dialog("Cancelar Pre-Inscripcion")
 def warning_unenroll(course):
     st.subheader(f'@Cancelando Reserva a **{course}**')
     st.error(f'Estas segur@ que ya no quires participar de **{course}**, es posible que al aforo se complete y ya no puedas inscribirte nuevamente ',icon="🔥")
 
 
-@st.dialog("Pre-Inscripción Cancelada")
+@st.experimental_dialog("Pre-Inscripción Cancelada")
 def unenrolled_confirm():
     st.info("¡Tu pre-inscripción ha sido cancelada con éxito!", icon="ℹ️")
     st.markdown("**¡Sigue adelante con Circle Up ⚫!**")
     st.snow()
 
 
-# Warning Dialogs
-@st.dialog("¡Ups! Tenemos una advertencia")
+# Warning experimental_dialogs
+@st.experimental_dialog("¡Ups! Tenemos una advertencia")
 def enrollment_warning(auth_warning):
     if auth_warning == 'one':
         st.info("No te preocupes, parece que ya recibimos tu registro. Te avisaremos para confirmar el inicio de las clases.", icon="ℹ️")
@@ -73,7 +73,7 @@ def enrollment_warning(auth_warning):
 
 
 
-@st.dialog("¡Vamos! ¡Actualicemos!",width="small")
+@st.experimental_dialog("¡Vamos! ¡Actualicemos!",width="small")
 def warning_course_changes(changes):
     attributes = {
         'course_name':'Nombre del Curso', 
@@ -98,7 +98,7 @@ def warning_course_changes(changes):
             st.info("No se identifican cambios", icon="ℹ️")
 
 
-@st.dialog("¡Vamos! ¡Actualicemos!",width="small")
+@st.experimental_dialog("¡Vamos! ¡Actualicemos!",width="small")
 def warning_profile_changes(changes):
     attributes = {
         'first_name':'Nombre', 
@@ -133,7 +133,7 @@ def warning_profile_changes(changes):
         else:
             st.info('¡Por ahora no has realizado ninguna actualización! Por favor, verifica si hay cambios.', icon="ℹ️")
 
-@st.dialog("¡Atención! Acceso Denegado")
+@st.experimental_dialog("¡Atención! Acceso Denegado")
 def unauthenticate_login(session_role):
     roles = {'Admin':'Sentinel','Volunteer':'Nomads','Learner':'Crew'}
     st.subheader(f'Sin acceso @{session_role}')
@@ -141,7 +141,7 @@ def unauthenticate_login(session_role):
     st.image(image='./gallery/nomad.png', use_column_width=True)
 
 
-@st.dialog("¡Ups! Parece que hubo un problema.")
+@st.experimental_dialog("¡Ups! Parece que hubo un problema.")
 def warning_login_failed(email:str = None,password:str = None):
     if email and password :
         st.markdown('Hemos tenido dificultades para encontrar tu cuenta.')
@@ -153,28 +153,28 @@ def warning_login_failed(email:str = None,password:str = None):
 
 disclaimer_data_agreemet = """Al proporcionar mis datos, :blue-background[acepto] que sean utilizados y gestionados internamente, en conformidad con las leyes de protección de datos de Colombia. Esto incluye la Ley de :blue-background[Protección de Datos Personales (Ley 1581 de 2012)] y sus decretos reglamentarios. Entiendo que mis datos serán tratados con el debido respeto y protección, y que no serán compartidos con terceros sin consentimiento explícito"""
 
-@st.dialog("Tratamiento de Datos")
+@st.experimental_dialog("Tratamiento de Datos")
 def warning_data_sharing():
     st.markdown(disclaimer_data_agreemet)
     st.divider()
     st.warning("Por favor, asegúrate de aceptar el tratamiento de datos para completar tu registro.",icon="⚠️")
 
-@st.dialog("¡Ups! Datos Faltantes")
+@st.experimental_dialog("¡Ups! Datos Faltantes")
 def warning_empty_data(fields:str=''):
     st.markdown('Hemos notado que algunos campos están sin llenar. Te invitamos a revisar nuevamente el formulario, puede que falte completar algún campo!')
     st.warning(f"Por favor, verifica que todos los campos estén diligenciados correctamente.")
     st.info(f"{fields}",icon='ℹ️')
 
-@st.dialog("¡Ups! Algo salió mal")
+@st.experimental_dialog("¡Ups! Algo salió mal")
 def warning_reupload():
     st.markdown('Hemos notado que el nombre del curso que intentas subir ya está en el sistema.')
     st.divider()
     st.warning("Por favor, verifica que no estás sobrescribiendo un curso. Recuerda que tienes la opción de eliminar o actualizar en caso de que desees renombrar cursos.", icon="⚠️")
 
-# Info Dialogs
+# Info experimental_dialogs
 
-@st.dialog("Verificación Pensum")
-def verify_pensum_dialog():
+@st.experimental_dialog("Verificación Pensum")
+def verify_pensum_experimental_dialog():
     st.subheader(f'Hola, {st.session_state.user_auth.first_name}!')
 
     st.markdown(f"""
@@ -190,7 +190,7 @@ def verify_pensum_dialog():
         st.rerun()
 
 
-@st.dialog("¡Aprende Sobre Tribus",width="large")
+@st.experimental_dialog("¡Aprende Sobre Tribus",width="large")
 def tribu_definition():
     st.subheader('¡Descubre su Esencia!')
     
@@ -208,7 +208,7 @@ def tribu_definition():
     """
     st.markdown(tribus_mean)
 
-@st.dialog("¿Está listo para revisión?", width="large")
+@st.experimental_dialog("¿Está listo para revisión?", width="large")
 def pensum_confirmation(inputs):
     def clean_text(text):
         return " ".join(text.replace("\n", " ").replace("-", "").split()) if isinstance(text, str) else text
@@ -268,8 +268,8 @@ def pensum_confirmation(inputs):
     Por favor, envía solo si estás seguro de que todo está listo para ser evaluado.
     """)
 
-# Kudos Dialogs
-@st.dialog("¡Curso Actualizado!")
+# Kudos experimental_dialogs
+@st.experimental_dialog("¡Curso Actualizado!")
 def succeed_update_course(name):
     st.subheader(f'¡Hola, @{name}! ¡Tu Curso ha sido actualizado!')
     st.markdown("¡La información ya está en nuestro sistema! Ahora, ¡puedes seguir adelante y realizar más propuestas!")
@@ -279,7 +279,7 @@ def succeed_update_course(name):
     st.balloons()
 
 
-@st.dialog("¡Registro Exitoso!")
+@st.experimental_dialog("¡Registro Exitoso!")
 def succeed_signup(tribe):
     st.subheader(f'Bienvenido a la tribu @**{tribe}** 🎉')
     st.markdown("¡Tu registro ha sido exitoso! Ahora puedes continuar al inicio de sesión para comenzar a disfrutar de nuestra comunidad.")
@@ -288,7 +288,7 @@ def succeed_signup(tribe):
     st.markdown(":blue[**¡Comencemos la Aventura!**]")
     st.balloons()
 
-@st.dialog("¡Perfil actualizado!")
+@st.experimental_dialog("¡Perfil actualizado!")
 def succeed_update_profiles(name):
     st.subheader(f'@{name}, ¡has actualizado tu perfil con éxito!')
     st.markdown("¡Tus datos ya están en nuestro sistema! Ahora puedes continuar con confianza, sabiendo que no te perderás ninguna invitación.")
@@ -299,7 +299,7 @@ def succeed_update_profiles(name):
     st.balloons()
 
 
-@st.dialog("¡Propuesta Enviada!")
+@st.experimental_dialog("¡Propuesta Enviada!")
 def succeed_proposal(course):
     st.subheader('¡Tu idea está en camino!')
     st.markdown(f"¡Tu curso :blue[@{course}], ha sido registrado en nuestro sistema y lo veras en :blue[2 minutos]! Ahora, vamos a trabajar juntos para hacerlo realidad.")
@@ -308,7 +308,7 @@ def succeed_proposal(course):
     st.markdown("**¡Sigue con Circle Up ⚫!**")
     st.balloons()
 
-@st.dialog("Pre-Incripcion Enviada!")
+@st.experimental_dialog("Pre-Incripcion Enviada!")
 def succefull_enrollment(course):
     st.subheader('¡Tu solicitud está en camino!')
     st.markdown(f"¡Acabas de resevar un lugar para :blue[@{course}]!")
@@ -318,7 +318,7 @@ def succefull_enrollment(course):
 
 
 
-@st.dialog("¡Email Enviado!")
+@st.experimental_dialog("¡Email Enviado!")
 def pensum_email_sent():
     st.subheader('🎉 ¡Excelente! Tu email está en camino')
     
@@ -339,7 +339,7 @@ def pensum_email_sent():
 
 import streamlit as st
 
-@st.dialog("¡Email Enviado!")
+@st.experimental_dialog("¡Email Enviado!")
 def pensum_email_file():
     st.subheader('🎉 ¡Tu pensum ha sido recibido!')
     

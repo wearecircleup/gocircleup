@@ -124,7 +124,7 @@ def warning_profile_changes(changes):
 
     st.markdown("Actualizar tu perfil, especialmente tu correo electrónico, números de contacto y número de emergencia, nos ayuda a mantener nuestra base de datos precisa y actualizada.")
     with st.container(height=300):
-        st.info('**Actualizaciones Identificadas**')
+        st.info('Actualizaciones Identificadas',icon=':material/tactic:')
         if any([value[-1] for value in changes.values()]):
             for key, update in changes.items():
                 if update[-1]: 
@@ -173,7 +173,7 @@ def succeed_update_profiles(name):
     st.subheader(f'@{name}, ¡has actualizado tu perfil con éxito!')
     st.markdown("¡Tus datos ya están en nuestro sistema! Ahora puedes continuar con confianza, sabiendo que no te perderás ninguna invitación.")
     st.divider()
-    st.success("¡Actualización del estado completada con éxito! ¡Gracias!", icon="✅")
+    st.success("¡Actualización del estado completada con éxito! ¡Gracias!", icon=":material/rocket:")
     cols = st.columns([1,4,1])
     cols[1].markdown("**¡Continúa con tu viaje!**")
     st.balloons()

@@ -14,6 +14,11 @@ from google.cloud import firestore
 from dataclasses import asdict
 
 from menu import menu
+from utils.body import (
+    warning_empty_data, unauthenticate_login,
+    warning_profile_changes, succeed_update_profiles,
+    html_banner
+)
 from utils.form_options import skills, how_to_learn,weaknesses,strengths
 from classes.firestore_class import Firestore
 from classes.utils_class import CategoryUtils
@@ -100,44 +105,6 @@ def update_users_profile() -> None:
     layout[0].multiselect(label="¿Cuáles son tus debilidades?", default=st.session_state.user_auth.weaknesses, options=weaknesses, placeholder="Choose an option", key="_weaknesses", help=st.session_state.form_definitions['_weaknesses'])
     layout[1].multiselect(label="¿Cuáles son tus fortalezas?", default=st.session_state.user_auth.strengths, options=strengths, placeholder="Choose an option", key="_strengths", help=st.session_state.form_definitions['_strengths'])
 
-
-
-def warning_profile_changes(changes):
-    attributes = {
-        'first_name':'Nombre', 
-        'last_name':'Apellido',
-        'email':'Correo Electronico',
-        'password':'Contraseña',
-        'address':'Direccion',
-        'phone_number':'Telefono Celular',
-        'id_user':'Número Documento Identidad',
-        'id_user_type':'Tipo D.I.',
-        'city_residence':'Cuidad Residencia', 
-        'guardian_fullname':'Nombre Tutor legal/Emergencia',
-        'guardian_relationship':'Parentesco',
-        'emergency_phone':'Telefono Tutor/Emergencia',
-        'how_to_learn':'¿Cómo aprendes mejor?',
-        'skills':'¿Cuáles son tus habilidades?',
-        'strengths':'¿Cuáles son tus fortalezas?',
-        'weaknesses':'¿Cuáles son tus debilidades?'
-    }
-
-    st.markdown("Actualizar tu perfil, especialmente tu correo electrónico, números de contacto y número de emergencia, nos ayuda a mantener nuestra base de datos precisa y actualizada.")
-    with st.container(height=300):
-        st.info('Actualizaciones Identificadas',icon=':material/tactic:')
-        if any([value[-1] for value in changes.values()]):
-            for key, update in changes.items():
-                if update[-1]: 
-                    if key != 'password':
-                        st.markdown(f'- Has actualizado [**{attributes[key]}**] :green[**Antes:**] :blue[**{update[1]}**] | :green[**Ahora:**] :blue[**{update[0]}**]')
-                    else: 
-                        st.markdown(f'Has actualizado :blue[**Contraseña **********]')
-            st.info("Confirma antes de actualizar!", icon="ℹ️")
-        else:
-            st.info('¡Por ahora no has realizado ninguna actualización! Por favor, verifica si hay cambios.', icon="ℹ️")
-
-###
-
 def profile_updates() -> None:
     """Validate and process profile updates."""
     profile_attributes = {
@@ -165,20 +132,7 @@ def profile_updates() -> None:
         if any([value[-1] for value in changes.values()]):
             st.session_state.updates_request = False
     else: 
-        st.info('Hemos notado que algunos campos están sin llenar. Te invitamos a revisar nuevamente el formulario, puede que falte completar algún campo!')
-        st.warning(f"Por favor, verifica que todos los campos estén diligenciados correctamente.") 
-
-
-def succeed_update_profiles(name):
-    st.subheader(f'@{name}, ¡has actualizado tu perfil con éxito!')
-    st.markdown("¡Tus datos ya están en nuestro sistema! Ahora puedes continuar con confianza, sabiendo que no te perderás ninguna invitación.")
-    st.divider()
-    st.success("¡Actualización del estado completada con éxito! ¡Gracias!", icon=":material/rocket:")
-    cols = st.columns([1,4,1])
-    cols[1].markdown("**¡Continúa con tu viaje!**")
-    st.balloons()
-
-####
+        warning_empty_data()    
 
 def update_profile_changes() -> None:
     """Update user profile in the database."""
@@ -242,10 +196,7 @@ def main() -> None:
                 st.switch_page('app.py')
             st.image('./gallery/WebSvg/main_footer.svg', use_column_width=True)
         else:
-            roles = {'Admin':'Sentinel','Volunteer':'Nomads','Learner':'Crew'}
-            st.info(f'Sin acceso @{st.session_state.user_auth.user_role}')
-            st.info(f"Lo siento, pero actualmente no tienes autorización para acceder a las herramientas de **{st.session_state.user_auth.user_role}**.")
-
+            unauthenticate_login(st.session_state.user_auth.user_role)
     except Exception as e:
         st.error(f"An error occurred: {str(e)}")
         st.switch_page("app.py")

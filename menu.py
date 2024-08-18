@@ -1,9 +1,6 @@
 import streamlit as st
-import json
-from utils.body import html_home       
+import json   
 from google.cloud import firestore
-from dataclasses import asdict
-from typing import Dict
 from classes.utils_class import CategoryUtils
 
 st.markdown(CategoryUtils.markdown_design(), unsafe_allow_html=True)

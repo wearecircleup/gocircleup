@@ -9,7 +9,6 @@ st.set_page_config(
 
 import json
 from menu import menu
-from utils.body import html_banner
 from google.cloud import firestore
 from classes.firestore_class import Firestore
 from classes.email_class import Email

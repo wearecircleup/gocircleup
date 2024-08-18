@@ -133,6 +133,8 @@ def warning_profile_changes(changes):
         else:
             st.info('¡Por ahora no has realizado ninguna actualización! Por favor, verifica si hay cambios.', icon="ℹ️")
 
+
+
 @st.experimental_dialog("¡Atención! Acceso Denegado")
 def unauthenticate_login(session_role):
     roles = {'Admin':'Sentinel','Volunteer':'Nomads','Learner':'Crew'}

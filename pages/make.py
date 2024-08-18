@@ -16,7 +16,6 @@ import pandas as pd
 from google.cloud import firestore
 import re
 from menu import menu
-from utils.body import html_banner
 from classes.spread_class import Sheets
 from classes.utils_class import CategoryUtils
 from classes.firestore_class import Firestore

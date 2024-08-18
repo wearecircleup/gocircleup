@@ -11,7 +11,6 @@ import datetime as dt
 from datetime import datetime
 from menu import menu
 from dataclasses import asdict
-from utils.body import disclaimer_data_agreemet, html_banner
 from utils.form_options import municipios
 import json
 from google.cloud import firestore
@@ -48,9 +47,14 @@ st.session_state.id_user_list = id_user_list
 st.session_state.topics_of_interest = topics_of_interest
 st.session_state.education_level = education_level
 
+disclaimer_data_agreemet = """Al proporcionar mis datos, :blue-background[acepto] que sean utilizados y gestionados internamente, en conformidad con las leyes de protección de datos de Colombia. Esto incluye la Ley de :blue-background[Protección de Datos Personales (Ley 1581 de 2012)] y sus decretos reglamentarios. Entiendo que mis datos serán tratados con el debido respeto y protección, y que no serán compartidos con terceros sin consentimiento explícito"""
+
+
 st.markdown(CategoryUtils.markdown_design(), unsafe_allow_html=True)
 st.image('./gallery/WebSvg/main_header.svg', use_column_width=True)
 st.session_state.page_selected = None
+
+
 
 @st.cache_resource
 def connector():

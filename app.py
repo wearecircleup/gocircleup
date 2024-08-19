@@ -163,7 +163,7 @@ def get_user_auth(email,token):
     except Exception as e:
         return False
 
-@st.cache_data(ttl=900, show_spinner=False)
+@st.cache_data(ttl=60, show_spinner=False)
 def send_to_sheets(data: List[List[str]]) -> bool:
     try:
         sheet: Sheets = Sheets('1lAPcVR3e7MqUJDt2ys25eRY7ozu5HV61ZhWFYuMULOM', 'Log In')
@@ -224,7 +224,7 @@ def show_interactive_login_instructions():
         
         st.balloons()
 
-@st.cache_data(ttl=900, show_spinner=False)
+@st.cache_data(ttl=60, show_spinner=False)
 def tokens_generator(email):
     utils = CategoryUtils()
     characters = string.ascii_letters + string.digits

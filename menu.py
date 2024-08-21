@@ -35,20 +35,11 @@ def authenticated_menu():
             st.sidebar.info(":blue[**Nomad Side**]")
             st.sidebar.page_link("pages/dashboard.py", label="Propuestas", icon=":material/groups:")
 
-        if st.session_state.user_auth.user_role == 'Admin':
-            st.sidebar.info(":blue[**Sentinel Side**]")
-            st.sidebar.page_link("pages/make.py", label="Crear Ideas", icon=":material/lightbulb:")
-            st.sidebar.page_link("pages/proposal.py", label="Proponer Cursos", icon=":material/rocket:")
-            st.sidebar.page_link("pages/orchestrate.py", label="Gestión Voluntarios", icon=":material/group:")
-            st.sidebar.page_link("pages/rollout.py", label="Revisar Cursos", icon=":material/menu_book:")
             
 def unauthenticated_menu():
     st.sidebar.image('./gallery/WebSvg/bear.svg', use_column_width=True)
     st.sidebar.page_link("app.py", label="Registrarse", icon=":material/ads_click:") 
     st.sidebar.page_link('pages/signup.py',label='Crear Cuenta', icon=":material/app_registration:")
-    st.sidebar.page_link("pages/docs.py", label="Investigación", icon=":material/experiment:")
-    st.sidebar.page_link("pages/home.py", label="Community", icon=":material/diversity_3:")
-    st.sidebar.page_link("pages/cbl.py", label="CBL Hub", icon=":material/hub:")
 
 
 def menu():

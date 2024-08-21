@@ -121,12 +121,6 @@ def show_navigation():
     if st.session_state.user_auth.user_role in ['Volunteer', 'Admin']:
         pages["Propuestas"] = "pages/dashboard.py"
 
-    if st.session_state.user_auth.user_role == 'Admin':
-        pages["Proponer Curso"] = "pages/proposal.py"
-        pages["Crear Ideas"] = "pages/make.py"
-        pages["Gestión Voluntarios"] = "pages/orchestrate.py"
-        pages["Revisar Cursos"] = "pages/rollout.py"
-
     return pages
 
 def prepare_sheets_data(instance_data: dict) -> List[str]:
@@ -431,15 +425,12 @@ def main():
             st.session_state.page_msm = 'success' if status == 'success' else 'fail'
             st.rerun()
 
-        col1, col2, col3  = st.columns(3)
+        col1, col2  = st.columns(3)
         with col1:
             
             if st.button(':material/touch_app: Crear Cuenta', type="primary", help='Registro', use_container_width=True):
                 st.switch_page('pages/signup.py')
         with col2:
-            if st.button(':material/arrow_drop_down_circle: ¿Qué es Community?', type="secondary", use_container_width=True):
-                st.switch_page('pages/home.py')
-        with col3:
             if st.button(':material/password_2_off: ¿Olvidaste tu contraseña?', type="secondary", use_container_width=True):
                 change_password_button()
     

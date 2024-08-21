@@ -425,7 +425,7 @@ def main():
             st.session_state.page_msm = 'success' if status == 'success' else 'fail'
             st.rerun()
 
-        col1, col2  = st.columns(3)
+        col1, col2  = st.columns(2)
         with col1:
             
             if st.button(':material/touch_app: Crear Cuenta', type="primary", help='Registro', use_container_width=True):

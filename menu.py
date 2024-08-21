@@ -19,7 +19,7 @@ def authenticated_menu():
     st.session_state.role_synonym = tribes_synonyms[st.session_state.user_auth.user_role]
     if st.session_state.user_auth is not None and st.session_state.user_auth.user_status == 'Activo':
         
-        st.sidebar.image('./gallery/WebSvg/bear.svg', use_column_width=True)
+        st.sidebar.image('./gallery/WebSvg/sidebar_bear.svg', use_column_width=True)
         
         st.sidebar.info(f":blue[**{st.session_state.role_synonym}** Menu]")
 
@@ -37,18 +37,18 @@ def authenticated_menu():
 
             
 def unauthenticated_menu():
-    st.sidebar.image('./gallery/WebSvg/bear.svg', use_column_width=True)
+    st.sidebar.image('./gallery/WebSvg/sidebar_bear.svg', use_column_width=True)
     st.sidebar.page_link("app.py", label="Registrarse", icon=":material/ads_click:") 
     st.sidebar.page_link('pages/signup.py',label='Crear Cuenta', icon=":material/app_registration:")
 
 
 def menu():
-    try:
-        if st.session_state.user_auth: 
-            if st.session_state.user_auth.user_status == 'Activo':
-                authenticated_menu()
-        else:
-            unauthenticated_menu()
-    except:
-        st.switch_page('app.py')
+    # try:
+    if st.session_state.user_auth: 
+        if st.session_state.user_auth.user_status == 'Activo':
+            authenticated_menu()
+    else:
+        unauthenticated_menu()
+    # except:
+    #     st.switch_page('app.py')
 

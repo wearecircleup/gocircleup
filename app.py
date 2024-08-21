@@ -457,7 +457,9 @@ def main():
 
     menu()
     st.image('./gallery/WebSvg/main_footer.svg', use_column_width=True)
+
 if __name__ == "__main__":
+    
     main()
 
 

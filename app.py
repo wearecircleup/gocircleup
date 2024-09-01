@@ -459,10 +459,19 @@ def main():
     st.image('./gallery/WebSvg/main_footer.svg', use_column_width=True)
 
 if __name__ == "__main__":
-    
-    main()
 
-
-
-
+    if 'page' in st.query_params:
+        if st.query_params['page'] == 'landing':
+            st.query_params.clear()
+            st.switch_page('pages/landing.py')
+        elif st.query_params['page'] == 'signup':
+            st.query_params.clear()
+            st.switch_page('pages/signup.py')
+        elif st.query_params['page'] == 'contact':
+            st.query_params.clear()
+            st.switch_page('pages/contact.py')
+        else:
+            pass
+    else:
+        main()
 
